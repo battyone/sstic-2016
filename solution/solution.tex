@@ -1,0 +1,148 @@
+% "THE BEER-WARE LICENSE" (Revision 42)
+%
+% Nicolas Iooss wrote this file in 2016.  As long as you retain this notice you
+% can do whatever you want with this stuff. If we meet some day, and you think
+% this stuff is worth it, you can buy me a beer in return.
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage[pdftex]{hyperref}
+\usepackage{epigraph}
+\usepackage{framed}
+\usepackage{geometry}
+\usepackage{bbm}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage[toc,page]{appendix}
+\usepackage{xcolor}
+\usepackage{pdfpages}
+\usepackage{fancyvrb} % verbatim replacement that allows latex
+
+\geometry{%
+a4paper,
+body={160mm,250mm},
+left=25mm,top=25mm,
+headheight=7mm,headsep=4mm,
+marginparsep=4mm,marginparwidth=5mm}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\setlength\epigraphwidth{.45\textwidth}
+\setlength\epigraphrule{0pt}
+\newcommand{\epiquote}[2]{\epigraph{\small\itshape{#1}}{--- \itshape{#2}}}
+
+% Header
+\title{Solution du Challenge SSTIC 2016}
+\author{Nicolas Iooss}
+\date{25 - 27 mars 2016}
+
+\makeatletter
+  \hypersetup{
+    pdftitle = {\@title},
+    pdfauthor = {\@author}
+  }
+\makeatother
+
+% Custom commands
+\newcommand{\todo}[1]{\fcolorbox{red}{yellow}{TODO: #1}}
+\newcommand{\bksl}{\char`\\} % Backslash
+\newcommand{\lsl}[1]{\textless{}\textless{} #1} % <<
+\newcommand{\lsr}[1]{\textgreater{}\textgreater{} #1} % >>
+\newcommand{\stophighlight}[1]{} % Stop buggy highlighting in gedit
+
+\newcommand{\screenshotw}[3]{%
+\begin{figure}[htbp]%
+\centering%
+\includegraphics[width=#1]{#2}%
+\caption{#3}%
+\end{figure}%
+}
+\newcommand{\screenshot}[2]{\screenshotw{.7\textwidth}{#1}{#2}}
+
+\renewcommand{\appendixname}{Annexes}
+\renewcommand{\appendixpagename}{Annexes}
+\renewcommand{\appendixtocname}{Annexes}
+
+% Needed since pandoc 1.14
+% Reduces space between elements of a list (written in markdown)
+% For more space between the elements, add an empty line
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\definecolor{shadecolor}{gray}{0.95}
+\newenvironment{Shaded}{\begin{shaded}}{\end{shaded}}
+% https://github.com/Carreau/nbconvert/blob/537500a3288e64a4fcfc8af6847bd0ce0767163e/nbconvert/templates/latex/base.tplx
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+% Document
+\begin{document}
+\maketitle
+
+\section*{Introduction}
+
+\epiquote{Le succès n’est pas la clé du bonheur.\\Le bonheur est la clé du succès.\\Si vous aimez ce que vous faites vous réussirez.}{Albert Schweitzer}
+
+Cette année le challenge du SSTIC a commencé à la fois pendant le week-end de Pâques et à peine deux jours avant le passage à l'heure d'été.
+Ceci a eu pour conséquence directe un conflit acharné entre les diverses activités qu'il fallait effectuer à ces occasions : dormir, se reposer et profiter calmement d'un week-end en famille.
+\\
+
+Grâce à une répartition astucieuse de mon temps, j'ai réussi à tellement optimiser la durée consacrée à la résolution du challenge que je suis arrivé premier au classement rapidité.
+La solution écrite dans ce document décrit relativement précisément le chemin que j'ai parcouru pour accomplir cet exploit, en indiquant en particulier les heures qui furent consacrées à la résolution du challenge, de la matinée du vendredi 25 mars à la soirée du dimanche 27 mars.
+\\
+
+Le challenge proprement dit se déroule principalement dans le cadre d'un jeu se jouant dans un navigateur web.
+Ce jeu comporte quatre niveaux séparés par trois gardes, qui demandent chacun un certain nombre de clés pour autoriser l'accès au niveau suivant.
+Il s'agit alors de résoudre des quêtes proposées à chaque niveau sous forme d'énigme afin de récolter les clés et finalement obtenir le Graal qu'est l'adresse email de validation finale.
+
+
+\clearpage
+\tableofcontents
+
+\clearpage
+\input{solution_body.out.tex}
+
+\clearpage
+\begin{appendices}
+\input{appendices.out.tex}
+\end{appendices}
+
+\end{document}

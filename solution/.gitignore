@@ -1,0 +1,11 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.pdf
+*.out.*
+!/images/crosswords.pdf
+/images/*-eps-converted-to.pdf
+!/solution_nicolas_iooss.pdf
